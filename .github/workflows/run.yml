@@ -1,0 +1,28 @@
+name: Update Adidas Stores
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # 每週一 AM 00:00 (UTC) 自動觸發執行
+  workflow_dispatch: # 支援在 GitHub 網頁手動點擊執行
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run main script
+        env:
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+        run: python main.py
