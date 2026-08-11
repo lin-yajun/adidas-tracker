@@ -1,4 +1,7 @@
-requests
-gspread
-pandas
 streamlit
+pandas
+gspread
+requests
+streamlit-folium
+folium
+plotly
