@@ -13,7 +13,29 @@ st.set_page_config(
     page_icon="👟",
     layout="wide"
 )
+# 🔐 密碼驗證邏輯
+def check_password():
+    if "password_correct" not in st.session_state:
+        st.session_state["password_correct"] = False
 
+    if st.session_state["password_correct"]:
+        return True
+
+    st.subheader("🔒 私人儀表板 - 請輸入存取密碼")
+    password_input = st.text_input("密碼", type="password")
+    
+    if st.button("登入"):
+        correct_password = st.secrets.get("APP_PASSWORD", "123456")
+        if password_input == correct_password:
+            st.session_state["password_correct"] = True
+            st.rerun()
+        else:
+            st.error("❌ 密碼錯誤，請重新輸入！")
+            
+    return False
+
+if not check_password():
+    st.stop()
 # 套用 adidas 時尚黑白風格自訂 CSS
 st.markdown("""
 <style>
